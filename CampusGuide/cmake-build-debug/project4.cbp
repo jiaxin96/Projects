@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="project4"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/jx/Desktop/project4/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/jx/Desktop/project4/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/jx/Desktop/project4/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="project4">
+				<Option output="/home/jx/Desktop/project4/cmake-build-debug/project4" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/jx/Desktop/project4/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include-fixed"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/../../../../include/c++/6.2.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/../../../../include/c++/6.2.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/../../../../include/c++/6.2.1/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 project4"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="project4/fast">
+				<Option output="/home/jx/Desktop/project4/cmake-build-debug/project4" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/jx/Desktop/project4/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include-fixed"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/../../../../include/c++/6.2.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/../../../../include/c++/6.2.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/../../../../include/c++/6.2.1/backward"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 project4/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/jx/Desktop/project4/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/jx/Desktop/project4/include/Graph.hpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/include/Guide_UI.hpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/include/Guide_service.hpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/include/Spot.hpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/include/Storage.hpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/src/Graph.cpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/src/Guide_UI.cpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/src/Guide_service.cpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/src/Spot.cpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/src/Storage.cpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/src/main.cpp">
+			<Option target="project4"/>
+		</Unit>
+		<Unit filename="/home/jx/Desktop/project4/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

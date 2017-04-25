@@ -1,0 +1,37 @@
+package ImageDeal;
+
+import static org.junit.Assert.*;
+
+import java.awt.Image;
+import java.io.IOException;
+
+import org.junit.Test;
+
+public class ImplementImageIOTest {
+	
+	private static String image1path = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/res/1.bmp";
+	private static String image2path = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/res/1.bmp";
+
+	private static String image1_bluepath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_blue_goal.bmp";
+	private static String image1_redpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_red_goal.bmp";
+	private static String image1_greenpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_green_goal.bmp";
+	private static String image1_graypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_green_goal.bmp";
+
+	
+	private static String image2_bluepath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_blue_goal.bmp";
+	private static String image2_redpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_red_goal.bmp";
+	private static String image2_greenpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_green_goal.bmp";
+
+	@Test
+	public void testHeight() throws IOException {
+		ImplementImageIO iiio = new ImplementImageIO();
+		iiio.myRead("1.bmp");
+		
+	}
+
+	@Test
+	public void testMyWrite() {
+		fail("Not yet implemented");
+	}
+
+}

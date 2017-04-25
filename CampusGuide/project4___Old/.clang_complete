@@ -1,0 +1,14 @@
+-o CMakeFiles/project4.dir/src/Guide_service.cpp.o
+-o CMakeFiles/project4.dir/src/Storage.cpp.o
+-o CMakeFiles/project4.dir/src/Guide_UI.cpp.o
+-o CMakeFiles/project4.dir/src/Spot.cpp.o
+-/usr/bin/c++
+-c /home/jx/Desktop/Project/project4/src/Graph.cpp
+-std=gnu++11
+-c /home/jx/Desktop/Project/project4/src/Spot.cpp
+-c /home/jx/Desktop/Project/project4/src/main.cpp
+-c /home/jx/Desktop/Project/project4/src/Guide_UI.cpp
+-o CMakeFiles/project4.dir/src/main.cpp.o
+-c /home/jx/Desktop/Project/project4/src/Storage.cpp
+-o CMakeFiles/project4.dir/src/Graph.cpp.o
+-c /home/jx/Desktop/Project/project4/src/Guide_service.cpp

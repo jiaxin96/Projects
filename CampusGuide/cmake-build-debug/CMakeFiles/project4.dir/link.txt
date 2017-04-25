@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/project4.dir/src/Graph.cpp.o CMakeFiles/project4.dir/src/Guide_service.cpp.o CMakeFiles/project4.dir/src/Guide_UI.cpp.o CMakeFiles/project4.dir/src/main.cpp.o CMakeFiles/project4.dir/src/Spot.cpp.o CMakeFiles/project4.dir/src/Storage.cpp.o  -o project4 

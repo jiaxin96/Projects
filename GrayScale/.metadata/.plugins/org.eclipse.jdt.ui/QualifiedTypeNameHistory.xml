@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.junit.experimental.theories.FromDataPoints"/>
+<fullyQualifiedTypeName name="java.lang.InstantiationError"/>
+<fullyQualifiedTypeName name="java.awt.image.MemoryImageSource"/>
+<fullyQualifiedTypeName name="ImageDeal.BitImageInfo"/>
+<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
+<fullyQualifiedTypeName name="java.awt.Graphics"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="java.awt.image.RGBImageFilter"/>
+<fullyQualifiedTypeName name="java.awt.Toolkit"/>
+<fullyQualifiedTypeName name="java.awt.image.FilteredImageSource"/>
+<fullyQualifiedTypeName name="ImageDeal.ImplementImageIO"/>
+<fullyQualifiedTypeName name="java.awt.Image"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="java.lang.Byte"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+</qualifiedTypeNameHistroy>

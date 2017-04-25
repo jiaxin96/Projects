@@ -1,0 +1,12 @@
+a unknown unknown unknown 0 0 0 1 1990-11-11 0000-00-00
+*
+a unknown unknown unknown 0 0 0 1 1990-11-11 0000-00-00
+#
+b unknown unknown unknown 0 0 0 1 1990-11-11 0000-00-00
+*
+b unknown unknown unknown 0 0 0 1 1990-11-11 0000-00-00
+#
+c unknown unknown unknown 0 0 0 1 1991-11-11 0000-00-00
+*
+c unknown unknown unknown 0 0 0 1 1991-11-11 0000-00-00
+#

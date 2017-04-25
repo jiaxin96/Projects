@@ -1,0 +1,314 @@
+#include"AgendaService.hpp"
+#include<iostream>
+#include <functional>
+#include <set>
+#include <vector>
+#define RJXDEBUG___OK
+using namespace std;
+
+AgendaService::AgendaService() { startAgenda(); }
+
+AgendaService::~AgendaService() { m_storage->sync();}
+
+bool AgendaService::userLogIn(const std::string userName,
+                              const std::string password) {
+  function<bool(const User &)> filter = [userName](const User &user) -> bool {
+    return userName == user.getName();
+  };
+  list<User> temp = m_storage->queryUser(filter);
+
+  if (temp.empty())
+    return false;
+  for (auto iter = temp.begin(); iter != temp.end(); iter++) {
+    if (iter->getPassword() == password)
+      return true;
+  }
+  return false;
+}
+
+bool AgendaService::userRegister(const std::string userName,
+                                 const std::string password,
+                                 const std::string email,
+                                 const std::string phone) {
+  function<bool(const User &)> filter = [userName](const User &user) -> bool {
+    return userName == user.getName();
+  };
+  list<User> temp = m_storage->queryUser(filter);
+
+  if (!temp.empty())
+    return false;
+  User t_user(userName, password, email, phone);
+  m_storage->createUser(t_user);
+  return true;
+}
+
+bool AgendaService::deleteUser(const std::string userName,
+                               const std::string password) {
+
+  function<bool(const User &)> filter = [userName](const User &user) -> bool {
+    return userName == user.getName();
+  };
+  function<bool(const Meeting &)> meeting_filter =
+      [userName](const Meeting &meeting) -> bool {
+      
+    if (userName == meeting.getSponsor()) return true;
+    if (meeting.isParticipator(userName)) return true;
+    return false;
+  };
+  int isOk = userLogIn(userName, password);
+  if (isOk) {
+    int count = 0;
+    count = m_storage->deleteUser(filter);
+    m_storage->deleteMeeting(meeting_filter);
+    return (count != 0);
+  }
+  return false;
+
+}
+
+list<User> AgendaService::listAllUsers(void) const {
+  function<bool(const User &)> filter = [](const User &user) -> bool {
+    return true;
+  };
+  list<User> temp = m_storage->queryUser(filter);
+  return temp;
+}
+
+std::list<Meeting> AgendaService::meetingQuery(const std::string userName,
+                                               const std::string title) const {
+  function<bool(const Meeting &)> filter =
+      [userName, title](const Meeting &meeting) -> bool {
+    vector<string> t_participator = meeting.getParticipator();
+    int isInMeeting = false;
+    for (size_t i = 0; i < t_participator.size(); ++i) {
+      if (t_participator[i] == userName) {
+        isInMeeting = true;
+        break;
+      }
+    }
+    return ((userName == meeting.getSponsor() || isInMeeting) &&
+            title == meeting.getTitle());
+  };
+  list<Meeting> temp = m_storage->queryMeeting(filter);
+
+  return temp;
+}
+
+std::list<Meeting>
+AgendaService::meetingQuery(const std::string userName,
+                            const std::string startDate,
+                            const std::string endDate) const {
+  
+
+  list<Meeting> temp_ans_format;
+  Date format_start = Date::stringToDate(startDate);
+  Date format_end = Date::stringToDate(endDate);
+
+  if (format_start > format_end || !Date::isValid(format_end)
+    || !Date::isValid(format_start))
+    return temp_ans_format;
+
+
+  function<bool(const Meeting &)> filter =
+      [userName, startDate, endDate](const Meeting &meeting) -> bool {
+    vector<string> t_participator = meeting.getParticipator();
+    int isInMeeting = false;
+    for (size_t i = 0; i < t_participator.size(); ++i) {
+      if (t_participator[i] == userName) {
+        isInMeeting = true;
+        break;
+      }
+    }
+    int isInTime = true;
+    Date start = Date::stringToDate(startDate);
+    Date end = Date::stringToDate(endDate);
+    if (start > meeting.getEndDate() || end < meeting.getStartDate())
+      isInTime = false;
+    return ((userName == meeting.getSponsor() || isInMeeting) && isInTime);
+  };
+
+  list<Meeting> temp = m_storage->queryMeeting(filter);
+
+  return temp;
+}
+
+list<Meeting> AgendaService::listAllMeetings(const string userName) const {
+  function<bool(const Meeting &)> filter =
+      [userName](const Meeting &meeting) -> bool {
+    if (userName == meeting.getSponsor()) {
+      return true;
+    }
+    vector<string> t_participator = meeting.getParticipator();
+    int isInMeeting = false;
+    for (size_t i = 0; i < t_participator.size(); ++i) {
+      if (t_participator[i] == userName) {
+        isInMeeting = true;
+        break;
+      }
+    }
+    return isInMeeting;
+  };
+  list<Meeting> temp = m_storage->queryMeeting(filter);
+
+  return temp;
+}
+
+list<Meeting>
+AgendaService::listAllParticipateMeetings(const string userName) const {
+  function<bool(const Meeting &)> filter =
+      [userName](const Meeting &meeting) -> bool {
+    vector<string> t_participator = meeting.getParticipator();
+    int isInMeeting = false;
+    for (size_t i = 0; i < t_participator.size(); ++i) {
+      if (t_participator[i] == userName) {
+        isInMeeting = true;
+        break;
+      }
+    }
+    return isInMeeting;
+  };
+  list<Meeting> temp = m_storage->queryMeeting(filter);
+
+  return temp;
+}
+
+list<Meeting>
+AgendaService::listAllSponsorMeetings(const string userName) const {
+  function<bool(const Meeting &)> filter =
+      [userName](const Meeting &meeting) -> bool {
+    if (userName == meeting.getSponsor()) {
+      return true;
+    }
+    return false;
+  };
+
+  list<Meeting> temp = m_storage->queryMeeting(filter);
+
+  return temp;
+}
+
+bool AgendaService::deleteMeeting(const std::string userName,
+                                  const std::string title) {
+  function<bool(const Meeting &)> filter =
+      [userName, title](const Meeting &meeting) -> bool {
+    if (userName == meeting.getSponsor() && title == meeting.getTitle()) {
+      return true;
+    }
+    return false;
+  };
+  int count = 0;
+  count = m_storage->deleteMeeting(filter);
+  return count != 0;
+}
+
+bool AgendaService::deleteAllMeetings(const std::string userName) {
+  function<bool(const Meeting &)> filter =
+      [userName](const Meeting &meeting) -> bool {
+    if (userName == meeting.getSponsor()) {
+      return true;
+    }
+    return false;
+  };
+  int count = 0;
+  count = m_storage->deleteMeeting(filter);
+  return count != 0;
+}
+
+void AgendaService::startAgenda(void) { m_storage = Storage::getInstance(); }
+
+void AgendaService::quitAgenda(void) { m_storage->sync();}
+
+bool AgendaService::createMeeting(const std::string userName,
+                                  const std::string title,
+                                  const std::string startDate,
+                                  const std::string endDate,
+                                  const std::vector<std::string> participator) {
+  
+  set<string> check_par;
+  for (size_t i = 0; i < participator.size(); ++i) {
+    check_par.insert(participator[i]);
+  }
+  if (check_par.find(userName) != check_par.end()) return false;
+  if (check_par.size() != participator.size()) return false;
+
+  Date format_start = Date::stringToDate(startDate);
+  Date format_end = Date::stringToDate(endDate);
+
+  if (format_start >= format_end || !Date::isValid(format_end)
+    || !Date::isValid(format_start))
+    return false;
+
+  function<bool(const User &)> user_filter = [=](const User &user) -> bool {
+    return true;
+  };
+
+  function<bool(const Meeting &)> meeting_filter =
+      [=](const Meeting &meeting) -> bool { return true; };
+
+  list<string> allAttendUserName;
+  allAttendUserName.push_back(userName);
+  for (size_t i = 0; i < participator.size(); ++i) {
+    allAttendUserName.push_back(participator[i]);
+  }
+
+  list<Meeting> allMeeting = m_storage->queryMeeting(meeting_filter);
+  list<User> allUser = m_storage->queryUser(user_filter);
+
+  for (auto iter = allMeeting.begin(); iter != allMeeting.end(); ++iter) {
+    if (title == iter->getTitle()) {
+      return false;
+    }
+  }
+
+  for (auto attendUserIter = allAttendUserName.begin();
+       attendUserIter != allAttendUserName.end(); ++attendUserIter) {
+    bool isUserOk = false;
+    for (auto iter = allUser.begin(); iter != allUser.end(); ++iter) {
+      if ((*attendUserIter) == iter->getName()) {
+        isUserOk = true;
+        break;
+      }
+    }
+    if (!isUserOk) {
+      return false;
+    }
+  }
+
+  list<Meeting> allRelatedMeeting;
+  function<bool(const Meeting &)> related_meeting_filter =
+      [=](const Meeting &meeting) -> bool {
+
+    vector<string> temp_user = meeting.getParticipator();
+    set<string> allUserInMeeting;
+    allUserInMeeting.insert(meeting.getSponsor());
+    for (size_t i = 0; i < temp_user.size(); ++i) {
+      allUserInMeeting.insert(temp_user[i]);
+    }
+
+    for (auto iter = allAttendUserName.begin(); iter != allAttendUserName.end();
+         ++iter) {
+      if (allUserInMeeting.find(*iter) != allUserInMeeting.end()) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+  allRelatedMeeting = m_storage->queryMeeting(related_meeting_filter);
+
+  for (auto relatedMeetingIter = allRelatedMeeting.begin();
+       relatedMeetingIter != allRelatedMeeting.end(); ++relatedMeetingIter) {
+    if (!( relatedMeetingIter->getStartDate() >= Date::stringToDate(endDate) ||
+      relatedMeetingIter->getEndDate() <= Date::stringToDate(startDate) )) {
+#ifdef RJXBUG
+      cout << relatedMeetingIter->getStartDate() >= Date::stringToDate(endDate) << "#########";
+      cout << relatedMeetingIter->getEndDate() <= Date::stringToDate(startDate) << "$$$$$$$$$";
+#endif
+      return false;
+    }
+  }
+  Meeting ansTemp(userName, participator, Date::stringToDate(startDate),
+                  Date::stringToDate(endDate), title);
+  m_storage->createMeeting(ansTemp);
+  return true;
+}

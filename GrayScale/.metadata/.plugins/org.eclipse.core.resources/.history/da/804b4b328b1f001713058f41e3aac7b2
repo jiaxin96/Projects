@@ -1,0 +1,81 @@
+package ImageDeal;
+
+import static org.junit.Assert.*;
+
+import java.awt.Image;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.junit.Test;
+
+public class ImplementImageIOTest {
+	
+	private static String image1path = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/res/1.bmp";
+	private static String image2path = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/res/2.bmp";
+
+	private static String image1_bluepath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_blue_goal.bmp";
+	private static String image1_redpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_red_goal.bmp";
+	private static String image1_greenpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_green_goal.bmp";
+	private static String image1_graypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/1_gray_goal.bmp";
+
+	
+	private static String image2_bluepath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_blue_goal.bmp";
+	private static String image2_redpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_red_goal.bmp";
+	private static String image2_greenpath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_green_goal.bmp";
+	private static String image2_graypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/goal/2_gray_goal.bmp";
+	
+	
+	private static String image1_blue_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/1_blue_my.bmp";
+	private static String image1_red_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/1_red_my.bmp";
+	private static String image1_green_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/1_green_my.bmp";
+	private static String image1_gray_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/1_gray_my.bmp";
+
+	
+	private static String image2_blue_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/2_blue_my.bmp";
+	private static String image2_red_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/2_red_my.bmp";
+	private static String image2_green_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/2_green_my.bmp";
+	private static String image2_gray_mypath = "/home/jx/Desktop/Project/ImageDeal/GrayScale/ImageDeal/myOut/2_gray_my.bmp";
+
+
+	@Test
+	public void testHeightAndWidth() throws IOException {
+		ImplementImageIO iiio = new ImplementImageIO();
+		iiio.myRead(image1path);
+		assertEquals(400, iiio.getImageAllInfo().getBiHeight());
+		assertEquals(400, iiio.getImageAllInfo().getBiWidth());
+		
+		iiio.myRead(image2path);
+		assertEquals(1024, iiio.getImageAllInfo().getBiHeight());
+		assertEquals(715, iiio.getImageAllInfo().getBiWidth());
+	}
+
+	@Test
+	public void testByteInfo() throws IOException {
+		FileInputStream myFs = new FileInputStream(image1_blue_mypath);
+		FileInputStream goalFs = new FileInputStream(image1_bluepath);
+		byte[]  my = new byte[1024];
+		byte[]  goal = new byte[1024];
+		int myReadLength = myFs.read(my);
+		int goalReadLength = goalFs.read(goal);
+		while (-1 != myReadLength && -1 != goalReadLength) {
+			assertArrayEquals(myBlude, goal);
+			myReadLength = myFs.read(my);
+			goalReadLength = goalFs.read(goal);
+		}
+		myFs.close();
+		goalFs.close();
+		
+		myFs = new FileInputStream(image2_blue_mypath);
+		goalFs = new FileInputStream(image2_bluepath);
+		myReadLength = myFs.read(my);
+		goalReadLength = goalFs.read(goal);
+		while (-1 != myReadLength && -1 != goalReadLength) {
+			assertArrayEquals(my, goal);
+			myReadLength = myFs.read(my);
+			goalReadLength = goalFs.read(goal);
+		}
+		
+	}
+
+}

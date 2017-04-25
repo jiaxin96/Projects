@@ -1,0 +1,187 @@
+package ImageDeal;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.awt.image.MemoryImageSource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.junit.experimental.theories.FromDataPoints;
+
+import imagereader.IImageIO;
+
+class BitImageInfo {
+
+
+	//     整个BMP文件大小   图片宽      高度       每个像素位数    全部像素数     一行宽度     补位得字节数
+	private int bftSize, biWidth, biHeight, bitBitCount, biSizeImage,widthBytes, fillByte;
+	private Image image;
+	private int HEADER_SIZE = 14;
+	private int INFOHEADER_SIZE = 40;
+	private byte[] headerFile;
+	private byte[] infoHeader;
+	public BitImageInfo() {
+		// TODO Auto-generated constructor stub
+		headerFile = new byte[HEADER_SIZE];
+		infoHeader = new byte[INFOHEADER_SIZE];
+	}
+	
+	
+	public int getBiWidth() {
+		return biWidth;
+	}
+
+
+	public int getBiHeight() {
+		return biHeight;
+	}
+
+
+	public int getBitBitCount() {
+		return bitBitCount;
+	}
+
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void getAllInfo(FileInputStream fs) throws IOException {
+		fs.read(headerFile, 0, HEADER_SIZE);
+		getHeaderInfo();
+		fs.read(infoHeader, 0, INFOHEADER_SIZE);
+		getInfoHeaderInfo(fs);
+		fs.close();
+	}
+	
+	
+	private void getHeaderInfo() {
+		
+	}
+	
+	
+	//从信息头获取图片文件的宽度和高度(单位像素),每个像素的位数,以及位图全部像素所占用的字节数字.
+	private void getInfoHeaderInfo(FileInputStream fs) throws IOException {
+		biWidth = ((int)(infoHeader[7] & 0xff)) << 24
+				| ((int)(infoHeader[6] & 0xff)) << 16
+				| ((int)(infoHeader[5] & 0xff)) << 8
+				| ((int)(infoHeader[4] & 0xff));
+		
+		
+		biHeight = ((int)(infoHeader[11] & 0xff)) << 24
+				| ((int)(infoHeader[10] & 0xff)) << 16
+				| ((int)(infoHeader[9] & 0xff)) << 8
+				| ((int)(infoHeader[8] & 0xff));
+		
+		
+		bitBitCount = ((int)(infoHeader[15] & 0xff)) << 8
+				| ((int)(infoHeader[14] & 0xff));
+		
+		
+		biSizeImage = ((int)(infoHeader[23] & 0xff)) << 24
+				| ((int)(infoHeader[22] & 0xff)) << 16
+				| ((int)(infoHeader[21] & 0xff)) << 8
+				| ((int)(infoHeader[20] & 0xff));
+		
+		byte [] rgbInfo = new byte[biSizeImage];
+		widthBytes = (biWidth*bitBitCount + 31) / 32 * 4;
+		fillByte = widthBytes - (int)(biWidth*((double)bitBitCount/8.0));
+		
+		int [] pix = new int[biHeight*biWidth];
+		int index = 0;
+		switch (bitBitCount) {
+		case 24:
+			fs.read(rgbInfo, 0, biSizeImage);
+			for (int i = 0; i < biHeight; i++) {
+				for (int j = 0; j < biWidth; j++) {
+					pix[biWidth * (biHeight - i - 1) + j] =
+							(255 & 0xff) << 24
+							| ((int)rgbInfo[index + 2] & 0xff) << 16
+							| ((int)rgbInfo[index + 1] & 0xff) << 8
+							| ((int)rgbInfo[index] & 0xff);
+					index += 3;
+				}
+				index += fillByte;
+			}
+			break;
+		case 8:
+			byte[] color = new byte[1024];
+			fs.read(color,0,1024);
+			int[] colorMap = new int[256];
+			int colorCount = 0;
+			for (index = 0; index < 1020; index += 4) {
+				colorMap[colorCount++] = ((int)color[index + 3] & 0xff) << 24
+						| ((int)color[index + 2] & 0xff) << 16
+						| ((int)color[index + 1] & 0xff) << 8
+						| ((int)color[index] & 0xff);
+			}
+			fs.read(rgbInfo, 0, biSizeImage);
+			index = 0;
+			colorCount = 0;
+			for (int i = 0; i < biHeight; i++) {
+				for (int j = 0; j < biWidth; j++) {
+					colorCount = (int)(rgbInfo[index] & 0xff);
+					pix[biWidth * (biHeight - i - 1) + j] =
+							colorMap[colorCount] | ((255 & 0xff) << 24);
+					index += 1;
+				}
+				index += fillByte;
+			}
+			
+			break;
+		default:
+			throw new IOException("图片是灰白图片");
+		}
+		image = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(biWidth, biHeight, pix, 0, biWidth));
+	}
+	
+}
+
+public class ImplementImageIO implements IImageIO {
+
+	
+	private BitImageInfo imageAllInfo = new BitImageInfo();
+	
+	@Override
+	public Image myRead(String path) throws IOException {
+		// TODO Auto-generated method stub
+		FileInputStream fs = new FileInputStream(path);
+		imageAllInfo.getAllInfo(fs);
+		return null;
+	}
+
+	@Override
+	public Image myWrite(Image image, String path) throws IOException {
+		// TODO Auto-generated method stub
+		int width = image.getHeight(null);
+		int height = image.getWidth(null);
+		BufferedImage bufferedImage;
+		// TYOE_BYTE_BGR means a 8 bit a panel, a pixel hold 3 byte, 24bit
+		if (imageAllInfo.getBitBitCount() == 24) {
+			 bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+		} else if (imageAllInfo.getBitBitCount() == 8) {
+			bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_INDEXED);
+		}
+		else {
+			 bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		}
+		
+		Graphics graphics = bufferedImage.getGraphics();
+		graphics.drawImage(image, 0, 0, null);
+		graphics.dispose();
+		
+		/**
+		 * open file
+		 */
+		File file = new File(path);
+		ImageIO.write(bufferedImage, "bmp", file);
+		
+		return image;
+	}
+
+}
